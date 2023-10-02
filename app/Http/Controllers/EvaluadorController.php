@@ -25,7 +25,7 @@ class EvaluadorController extends Controller
    public function index_tipo_especialista(){
 
 
-$eval = Evaluador::orderBy('id', 'desc')->take(1)->get();
+        $eval = Evaluador::orderBy('id', 'desc')->take(1)->get();
         $cuantos=count($eval);
 
         if($cuantos==0){
@@ -199,5 +199,26 @@ $eval = Evaluador::orderBy('id', 'desc')->take(1)->get();
         
         return response()->json(["resp" => "error", "error" => "Error al crear evaluador: " . $e->getMessage()], 400);
     }
+
+
+
+
+    
 }
+
+public function editar_evaluador($id){
+
+
+        $datos=Evaluador::find($id)->where('evaluador.estado_registro', '=','A');
+
+        if(!$datos){
+            return $datos;
+
+        }
+        else{
+            
+        }
+
+
+    }
 }
