@@ -43,11 +43,7 @@ class EvaluadorController extends Controller
         return view('Form_especialista',['tipos' => $tipos,'categorias_me' => $categorias_me,'categorias_lo' => $categorias_lo])->with('id_sigui',$id_sigui);
     }
 
-<<<<<<< HEAD
 
-=======
-
->>>>>>> b8706936789ae4fb1b190adfeb7d85aa47d07036
 
 
     public function create_evaluador(Request $request)
@@ -157,7 +153,6 @@ class EvaluadorController extends Controller
 
                 $labolatorio = new TE_laboratorio();
                 $labolatorio->lo_categoria_id = $request->categorias_lo;
-                $labolatorio->Evaluador_id = $request->id_evaluador;
 
                 $evaluador->save();
                 $labolatorio->save();
@@ -167,6 +162,7 @@ class EvaluadorController extends Controller
                     $lo_biologo = new LO_biologo();
                     $lo_biologo->lo_CBP = $request->lo_CBP;
                     $lo_biologo->lo_categoria_id = $request->categorias_lo;
+                    $lo_biologo->Evaluador_id = $request->id_evaluador;
 
                     $lo_biologo->save();
             }
@@ -174,14 +170,14 @@ class EvaluadorController extends Controller
                  $lo_tecnico_medico = new LO_tecnico_medico();
                  $lo_tecnico_medico->lo_CMP = $request->tm_lo_CMP;
                  $lo_tecnico_medico->lo_categoria_id = $request->categorias_lo;
-                 ;
+                 $lo_tecnico_medico->Evaluador_id = $request->id_evaluador;
 
                     $lo_tecnico_medico->save();
             }
             if($request->categorias_lo==3){
                  $lo_tecnico_cirujano = new LO_tecnico_cirujano();
                  $lo_tecnico_cirujano->lo_CMP = $request->tc_lo_CMP;$lo_tecnico_cirujano->lo_RNE = $request->lo_RNE;
-
+                 $lo_tecnico_cirujano->Evaluador_id = $request->id_evaluador;
                  $lo_tecnico_cirujano->lo_categoria_id = $request->categorias_lo;
 
                 $lo_tecnico_cirujano->save();
@@ -212,97 +208,20 @@ class EvaluadorController extends Controller
 
 }
 
-    public function editar_evaluador($id)
-    {
+public function editar_evaluador($id){
 
 
-        $datos = Evaluador::find($id)->where('evaluador.estado_registro', '!=', 'I')->where('evaluador.id', '=', $id)->get();
+        $datos=Evaluador::find($id)->where('evaluador.estado_registro', '=','A');
 
-        if ($datos) {
+        if(!$datos){
+            return $datos;
 
-<<<<<<< HEAD
         }
         else{
-=======
-
-            $tipo= Evaluador::select('evaluador.Tipo_Especialista_id')->where('evaluador.id','=',$id)->value('evaluador.Tipo_Especialista_id');
-
-
-            if ($tipo == 1) {
-
-                $data1 = TE_medico_ocupacional::join('evaluador', 'evaluador.id', '=', 'TE_medico_ocupacional.Evaluador_id')
-                 ->where('evaluador.id', '=', $id)
-                ->select(
-                    'TE_medico_ocupacional.MO_RNM',
-                     'TE_medico_ocupacional.MO_CMP',
-                      'TE_medico_ocupacional.MO_RNE')
-                ->get();
-                return [$data1,$datos];
-
-            }
-            if ($tipo == 2) {
-                $data2 = TE_medico_auditor::join('evaluador', 'evaluador.id', '=', 'TE_medico_auditor.Evaluador_id')->where('evaluador.id', '=', $id)
-                ->select(
-                    'TE_medico_auditor.MA_RNA',
-                    'TE_medico_auditor.MA_CMP',
-                    'TE_medico_auditor.MA_RNM',
-                    'TE_medico_auditor.MA_RNE')->get();
-
-                return [$data2,$datos];
-
-            }
-            if ($tipo == 3) {
-
-                $data3 = TE_medico_especialista::join('evaluador', 'evaluador.id', '=', 'TE_medico_especialista.Evaluador_id')
-                ->join('ME_categoria', 'ME_categoria.id', '=', 'TE_medico_especialista.me_categoria_id')
-                ->where('TE_medico_especialista.Evaluador_id', '=', $id)
-                ->select('ME_categoria.nombre', 'TE_medico_especialista.ME_RNE', 'TE_medico_especialista.ME_CMP')
-                ->get();
-
-                return [$data3,$datos];
-
-
-
-            }
-            if ($tipo == 4) {
-                $data4=TE_odontologia::join('evaluador','evaluador.id','=', 'TE_odontologia.id')->where('TE_odontologia.Evaluador_id','=',$id)->select('TE_odontologia.OD_COP')->get();
-
-                 return [$data4,$datos];
-
-            }
-            if ($tipo == 5) {
-                $data5=TE_licenciado_psicologia::join('evaluador','evaluador.id','=', 'TE_licenciado_psicologia.id')->where('TE_licenciado_psicologia.Evaluador_id','=',$id)->select('TE_licenciado_psicologia.PS_CPsP')->get();
-
-                 return [$data5,$datos];
-            }
-            if ($tipo == 6) {
-
-                $lo_cat = TE_laboratorio::select('TE_laboratorio.lo_categoria_id')->where('TE_laboratorio.Evaluador_id', '=', $id)->value('TE_laboratorio.lo_categoria_id');
-
-                if($lo_cat==1){
-
-                    $bio_data=LO_biologo::join('LO_categoria','LO_categoria.id','=','LO_biologo.lo_categoria_id')->join('TE_laboratorio','TE_laboratorio.lo_categoria_id','=','LO_biologo.lo_categoria_id')->where('TE_laboratorio.Evaluador_id', '=', $id)->select('LO_biologo.lo_CBP','LO_categoria.nombre')->get();
-                   return [$bio_data,$datos];
-
-
-                }
-                 if($lo_cat==2){
-                    $tec_med_data=LO_tecnico_medico::join('LO_categoria','LO_categoria.id','=','LO_tecnico_medico.lo_categoria_id')->join('TE_laboratorio','TE_laboratorio.lo_categoria_id','=','LO_tecnico_medico.lo_categoria_id')->where('TE_laboratorio.Evaluador_id', '=', $id)->select('LO_tecnico_medico.lo_CMP','LO_categoria.nombre')->get();
-
-                   return [$tec_med_data,$datos];
-                }
-                 if($lo_cat== 3){
-                   $tec_ciru_data=LO_tecnico_cirujano::join('LO_categoria','LO_categoria.id','=','lo_tecnico_cirujanos.lo_categoria_id')->select('lo_tecnico_cirujanos.lo_CMP','lo_tecnico_cirujanos.lo_RNE','LO_categoria.nombre')->get();
-
-                   return [$tec_ciru_data,$datos];
-                }
-
-            }
-
-
->>>>>>> b8706936789ae4fb1b190adfeb7d85aa47d07036
 
         }
+
+
     }
     public function desactivar($id)
     {
@@ -327,6 +246,25 @@ class EvaluadorController extends Controller
 
    }
 }
-
+//    public function show ()
+//    {
+//     try {
+//     $evaluador = Evaluador::with(
+//         'id',
+//         'apellidos',
+//         'nombres',
+//         'direccion',
+//         'telefono',
+//         'email',
+//         'imagen_firma',
+//         'pos_firma',
+//         'Tipo_Especialista_id',
+//         'estado_registro'
+//     )->where('estado_registro', 'A')->get();
+//     if (count($evaluador) == 0) return response()->json(["resp" => "No existen registros"]);
+//         return response()->json(["data" => $evaluador, "size" => count($evaluador)]);
+//     }catch (Exception $e){
+//     return response()->json(["error" => "error", "error", "" => $e]);
+//    }
 
 
