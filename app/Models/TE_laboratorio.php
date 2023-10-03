@@ -11,7 +11,7 @@ class TE_laboratorio extends Model
     protected $fillable = array(
                             'id',
                             'lo_categoria_id',
-                            
+                            'Evaluador_id',
                         );
     protected $primaryKey = 'id';
     protected $hidden = [

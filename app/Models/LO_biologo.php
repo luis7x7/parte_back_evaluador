@@ -11,7 +11,7 @@ class LO_biologo extends Model
     protected $fillable = array(
         'id',
                             'lo_CBP',
-                            'Evaluador_id',
+                            
                             'lo_categoria_id'
                         );
     protected $primaryKey = 'id';
