@@ -46,7 +46,7 @@ class EvaluadorController extends Controller
 <<<<<<< HEAD
 
 =======
-    
+
 >>>>>>> b8706936789ae4fb1b190adfeb7d85aa47d07036
 
 
@@ -167,7 +167,7 @@ class EvaluadorController extends Controller
                     $lo_biologo = new LO_biologo();
                     $lo_biologo->lo_CBP = $request->lo_CBP;
                     $lo_biologo->lo_categoria_id = $request->categorias_lo;
-                    
+
                     $lo_biologo->save();
             }
             if($request->categorias_lo==2){
@@ -181,7 +181,7 @@ class EvaluadorController extends Controller
             if($request->categorias_lo==3){
                  $lo_tecnico_cirujano = new LO_tecnico_cirujano();
                  $lo_tecnico_cirujano->lo_CMP = $request->tc_lo_CMP;$lo_tecnico_cirujano->lo_RNE = $request->lo_RNE;
-                 
+
                  $lo_tecnico_cirujano->lo_categoria_id = $request->categorias_lo;
 
                 $lo_tecnico_cirujano->save();
@@ -245,7 +245,7 @@ class EvaluadorController extends Controller
                 ->select(
                     'TE_medico_auditor.MA_RNA',
                     'TE_medico_auditor.MA_CMP',
-                    'TE_medico_auditor.MA_RNM', 
+                    'TE_medico_auditor.MA_RNM',
                     'TE_medico_auditor.MA_RNE')->get();
 
                 return [$data2,$datos];
@@ -261,7 +261,7 @@ class EvaluadorController extends Controller
 
                 return [$data3,$datos];
 
-                
+
 
             }
             if ($tipo == 4) {
@@ -298,7 +298,7 @@ class EvaluadorController extends Controller
                 }
 
             }
-            
+
 
 >>>>>>> b8706936789ae4fb1b190adfeb7d85aa47d07036
 
@@ -327,25 +327,6 @@ class EvaluadorController extends Controller
 
    }
 }
-//    public function show ()
-//    {
-//     try {
-//     $evaluador = Evaluador::with(
-//         'id',
-//         'apellidos',
-//         'nombres',
-//         'direccion',
-//         'telefono',
-//         'email',
-//         'imagen_firma',
-//         'pos_firma',
-//         'Tipo_Especialista_id',
-//         'estado_registro'
-//     )->where('estado_registro', 'A')->get();
-//     if (count($evaluador) == 0) return response()->json(["resp" => "No existen registros"]);
-//         return response()->json(["data" => $evaluador, "size" => count($evaluador)]);
-//     }catch (Exception $e){
-//     return response()->json(["error" => "error", "error", "" => $e]);
-//    }
+
 
 
