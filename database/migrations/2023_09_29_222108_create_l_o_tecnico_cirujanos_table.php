@@ -19,9 +19,6 @@ class CreateLOTecnicoCirujanosTable extends Migration
             $table->string('lo_RNE')->nullable(FALSE);
             $table->unsignedBigInteger('lo_categoria_id')->nullable();
             
-            $table->unsignedBigInteger('Evaluador_id')->nullable();
-            
-             $table->foreign('Evaluador_id')->references('id')->on('Evaluador')->onDelete('set null');
             
              
              $table->foreign('lo_categoria_id')->references('id')->on('LO_categoria')->onDelete('set null');

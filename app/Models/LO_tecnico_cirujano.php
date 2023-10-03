@@ -12,7 +12,7 @@ class LO_tecnico_cirujano extends Model
         'id',
                             'lo_CMP',
                             'lo_RNE',
-                            'Evaluador_id',
+                            
                             'lo_categoria_id'
                         );
     protected $primaryKey = 'id';
