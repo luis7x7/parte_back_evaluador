@@ -19,6 +19,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mockery\Expectation;
+use PhpParser\Node\Stmt\TryCatch;
+
 
 class EvaluadorController extends Controller
 {
@@ -41,18 +43,18 @@ class EvaluadorController extends Controller
         return view('Form_especialista',['tipos' => $tipos,'categorias_me' => $categorias_me,'categorias_lo' => $categorias_lo])->with('id_sigui',$id_sigui);
     }
 
-     
+
 
 
     public function create_evaluador(Request $request)
     {
 
     try {
-        
+
         $evaluador = new Evaluador();
 
         // Asignar los valores de los campos del modelo a partir de la solicitud
-       
+
        if ($request->hasFile('imagen_firma')) {
         $imagenFirma = $request->file('imagen_firma');
         $nombreImagen = time() . '.' . $imagenFirma->getClientOriginalExtension();
@@ -63,7 +65,7 @@ class EvaluadorController extends Controller
         $evaluador->imagen_firma =  $nombreImagen;
     }
 
-           
+
         $evaluador->apellidos = $request->apellidos;
         $evaluador->nombres = $request->nombres;
         $evaluador->direccion =$request->direccion;
@@ -88,7 +90,7 @@ class EvaluadorController extends Controller
                 $te_medico_ocupacional->MO_RNE = $request->MO_RNE;
                 $te_medico_ocupacional->Evaluador_id = $request->id_evaluador;
 
-                
+
                 $evaluador->save();
                 $te_medico_ocupacional->save();
 
@@ -103,7 +105,7 @@ class EvaluadorController extends Controller
                 $lo_medico_auditor->MA_RNE = $request->MA_RNE;
                 $lo_medico_auditor->Evaluador_id = $request->id_evaluador;
 
-               
+
                 $evaluador->save();
                  $lo_medico_auditor->save();
 
@@ -116,8 +118,8 @@ class EvaluadorController extends Controller
                 $me_especialista->ME_CMP = $request->ME_CMP;
                 $me_especialista->Evaluador_id =$request->id_evaluador;
                 $me_especialista->me_categoria_id =$request->categorias_me;
-                
-                    
+
+
                 $evaluador->save();
                 $me_especialista->save();
 
@@ -129,7 +131,7 @@ class EvaluadorController extends Controller
                 $te_odontologia->OD_COP =$request->OD_COP;
                 $te_odontologia->Evaluador_id = $request->id_evaluador;
 
-                
+
                 $evaluador->save();
                 $te_odontologia->save();
 
@@ -182,28 +184,28 @@ class EvaluadorController extends Controller
             }
 
 
-                
-                
+
+
 
              return response()->json(["resp" => "Evaluador medico_laboratorio creado correctamente"], 200);
         }
 
-        
 
-      
 
-        
 
-        
+
+
+
+
     } catch (Exception $e) {
-        
+
         return response()->json(["resp" => "error", "error" => "Error al crear evaluador: " . $e->getMessage()], 400);
     }
 
 
 
 
-    
+
 }
 
 public function editar_evaluador($id){
@@ -216,9 +218,53 @@ public function editar_evaluador($id){
 
         }
         else{
-            
+
         }
 
 
     }
+    public function desactivar($id)
+    {
+         DB::beginTransaction();
+         try{
+             $Desactivado = Evaluador::where('estado_registro','A')->find($id);
+             $exists = Evaluador::find($id);
+             if(!$exists){
+                 return response()->json(["error"=>"El id no existe"]);
+             }if(!$Desactivado){
+                 return response()->json(["error"=>"Ya esta desactivado"]);
+         }
+         $Desactivado->fill([
+             'estado_registro' => 'I',
+         ])->save();
+         DB::commit();
+         return response()->json(["resp" => "Desactivado correctamente"]);
+     } catch(Exception $e){
+         DB::rollBack();
+         return response()-> json(["Error: intente de nuevo " =>$e]);
+    }
+
+   }
 }
+//    public function show ()
+//    {
+//     try {
+//     $evaluador = Evaluador::with(
+//         'id',
+//         'apellidos',
+//         'nombres',
+//         'direccion',
+//         'telefono',
+//         'email',
+//         'imagen_firma',
+//         'pos_firma',
+//         'Tipo_Especialista_id',
+//         'estado_registro'
+//     )->where('estado_registro', 'A')->get();
+//     if (count($evaluador) == 0) return response()->json(["resp" => "No existen registros"]);
+//         return response()->json(["data" => $evaluador, "size" => count($evaluador)]);
+//     }catch (Exception $e){
+//     return response()->json(["error" => "error", "error", "" => $e]);
+//    }
+
+

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EvaluadorController;
+use App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::get('/Form_especialista', [EvaluadorController::class, 'index_tipo_especialista'])->name('Form_especialista');
+//  Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//      return $request->user();
+//  });
+ Route::get('/Form_especialista', [EvaluadorController::class, 'index_tipo_especialista'])->name('Form_especialista');
 
 Route::post('/Form_especialistaw', [EvaluadorController::class, 'create_evaluador'])->name('Form_especialistaw');
+
+Route::put('/Form_especialista_e/{id}', [EvaluadorController::class, 'desactivar'])->name('Form_especialista_e');
+// Route::put('medicina_general/evaluacionmedica/update/{id}', 'MedicinaGeneral\MedEvaluacionMedicaController@update');
+Route::put('evaluador/desactivar/{id}', 'EvaluadorController@desactivar');
+
+Route::get('evaluador/get', 'EvaluadorController@index_tipo_especialista');
+Route::get('evaluador/get/{id}', 'EvaluadorController@show');
+
+
+Route::post('evaluador/post', 'EvaluadorController@create_evaluador');
+
+
+
