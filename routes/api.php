@@ -24,15 +24,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/Form_especialistaw', [EvaluadorController::class, 'create_evaluador'])->name('Form_especialistaw');
 
 Route::put('/Form_especialista_e/{id}', [EvaluadorController::class, 'desactivar'])->name('Form_especialista_e');
-// Route::put('medicina_general/evaluacionmedica/update/{id}', 'MedicinaGeneral\MedEvaluacionMedicaController@update');
-Route::put('evaluador/desactivar/{id}', 'EvaluadorController@desactivar');
-
-Route::get('evaluador/get', 'EvaluadorController@index_tipo_especialista');
-Route::get('evaluador/get/{id}', 'EvaluadorController@show');
-
-
-Route::post('evaluador/post', 'EvaluadorController@create_evaluador');
-
-
 
 Route::put('/Form_especialistae/{id}', [EvaluadorController::class, 'editar_evaluador'])->name('Form_especialistae');
+
+Route::get('/Form_especialista_mostra', [EvaluadorController::class, 'mostrar_evaluado'])->name('Form_especialista_mostra');
+
+Route::get('/Form_especialista_mostrar/{id}', [EvaluadorController::class, 'mostrar_evaluador'])->name('Form_especialista_mostrar');
+
+
